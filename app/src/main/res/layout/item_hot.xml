@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/darker_gray"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/post_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Hot"
+        android:textSize="16sp"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/star_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:tint="@android:color/holo_orange_dark"
+        app:layout_constraintStart_toStartOf="@id/post_text_view"
+        app:layout_constraintTop_toBottomOf="@id/post_text_view"
+        app:srcCompat="@drawable/baseline_star_border_24"
+       />
+
+    <TextView
+        android:id="@+id/num_star_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        app:layout_constraintBottom_toBottomOf="@+id/star_image_view"
+        app:layout_constraintStart_toEndOf="@+id/star_image_view"
+        app:layout_constraintTop_toTopOf="@+id/star_image_view"
+        android:textSize="12sp"
+        tools:text="15" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/message_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:tint="@android:color/holo_blue_dark"
+        app:layout_constraintEnd_toStartOf="@id/num_message_text_view"
+        app:layout_constraintTop_toBottomOf="@id/post_text_view"
+        app:srcCompat="@drawable/baseline_message_24"
+        />
+
+    <TextView
+        android:id="@+id/num_message_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        app:layout_constraintBottom_toBottomOf="@+id/star_image_view"
+        app:layout_constraintEnd_toEndOf="@+id/post_text_view"
+        app:layout_constraintTop_toTopOf="@+id/star_image_view"
+        android:textSize="12sp"
+        tools:text="24" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
