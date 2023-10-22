@@ -2,22 +2,25 @@ package com.gb.reddit.data.data_source
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.gb.reddit.data.retrofit.HotApi
+import com.gb.reddit.data.service.HotService
 import com.gb.reddit.domain.entity.ItemHot
 
-class HotListingPagingDataSource(private val hotApi: HotApi) : PagingSource<String, ItemHot>() {
-    override fun getRefreshKey(state: PagingState<String, ItemHot>): String? = STARTING_PAGE_INDEX
+class HotListingPagingDataSource(private val hotService: HotService) : PagingSource<Int, ItemHot>() {
+    override fun getRefreshKey(state: PagingState<Int,ItemHot>): Int? {
+        return state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
+        }
+    }
 
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, ItemHot> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ItemHot> {
         val page = params.key ?: STARTING_PAGE_INDEX
         return try {
-            val response = hotApi.loadHotListing(page)
+            val itemsHotEntity = hotService.getItemHot(page)
             LoadResult.Page(
-                data = response.hotListingData.children.map {
-                    it.itemHot
-                },
-                prevKey = null,
-                nextKey = if (response.hotListingData.children.isEmpty()) null else response.hotListingData.after
+                data = itemsHotEntity,
+                prevKey = if (page == STARTING_PAGE_INDEX) null else page.minus(1),
+                nextKey = if (itemsHotEntity.isEmpty()) null else page.plus(1)
             )
         } catch (exception: Exception) {
             return LoadResult.Error(exception)
@@ -25,6 +28,6 @@ class HotListingPagingDataSource(private val hotApi: HotApi) : PagingSource<Stri
     }
 
     companion object {
-        private const val STARTING_PAGE_INDEX = ""
+        private const val STARTING_PAGE_INDEX = 1
     }
 }
